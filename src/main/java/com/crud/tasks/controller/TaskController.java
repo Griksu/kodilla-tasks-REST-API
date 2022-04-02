@@ -5,9 +5,12 @@ import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/tasks")
@@ -38,7 +41,9 @@ public class TaskController {
         return new TaskDto(1L, "Edited test title", "Test content");
     }
 
-    @PostMapping
-    public void createTask(TaskDto taskDto) {
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void createTask(@RequestBody TaskDto taskDto) {
+        Task task = taskMapper.mapToTask(taskDto);
+        service.saveTask(task);
     }
 }

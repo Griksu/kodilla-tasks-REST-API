@@ -8,6 +8,7 @@ import org.apache.catalina.LifecycleState;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +21,10 @@ public class DbService {
     }
 
     public Task getTaskById(Long taskId) {
-        return repository.findById();
+        return repository.findById(taskId).orElse(null);
+    }
+
+    public Task saveTask(Task task) {
+        return repository.save(task);
     }
 }
