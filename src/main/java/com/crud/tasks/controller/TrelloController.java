@@ -1,12 +1,11 @@
 package com.crud.tasks.controller;
 
+import com.crud.tasks.domain.CreatedTrelloCard;
 import com.crud.tasks.domain.TrelloBoardDto;
+import com.crud.tasks.domain.TrelloCardDto;
 import com.crud.tasks.trello.client.TrelloClient;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +25,11 @@ public class TrelloController {
 
         trelloBoards.forEach(trelloBoardDto -> {
             System.out.println(trelloBoardDto.getId() + " " + trelloBoardDto.getName());
+            System.out.println("This board contains lists: ");
+            trelloBoardDto.getLists().forEach(trelloListDto -> {
+                System.out.println(trelloListDto.getName() + " - " + trelloListDto.getId() +
+                        " - " + trelloListDto.isClosed());
+            });
         });
 
         List<TrelloBoardDto> trelloBoardsFiltered = trelloClient.getTrelloBoards()
@@ -36,5 +40,10 @@ public class TrelloController {
         trelloBoardsFiltered.forEach(trelloBoardDto -> {
             System.out.println(trelloBoardDto.getId() + " " + trelloBoardDto.getName());
         });
+    }
+
+    @PostMapping("cards")
+    public CreatedTrelloCard createdTrelloCard(@RequestBody TrelloCardDto trelloCardDto) {
+        return trelloClient.createNewCard(trelloCardDto);
     }
 }
