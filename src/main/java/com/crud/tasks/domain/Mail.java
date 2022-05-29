@@ -1,13 +1,9 @@
 package com.crud.tasks.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import javax.validation.constraints.NotNull;
-
-//@Builder
 @Getter
 @AllArgsConstructor
 @RequiredArgsConstructor
